@@ -1,0 +1,16 @@
+{
+  "name": "gazeta",
+  "description": "Gazeta: a short wake-up edition your coding session reads when it starts: what you touched last, what is waiting, and the output of any command you add. Runs on your own computer.",
+  "version": "0.1.0",
+  "author": { "name": "House of Solance" },
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "userConfig": {
+    "config_path": {
+      "type": "string",
+      "title": "Gazeta config file",
+      "description": "Where your Gazeta settings file is. It may not exist yet: Gazeta then runs with its defaults.",
+      "default": "~/.config/gazeta/config.json",
+      "required": false
+    }
+  }
+}
