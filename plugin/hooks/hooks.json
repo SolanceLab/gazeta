@@ -1,0 +1,16 @@
+{
+  "description": "Gazeta: prints the wake-up edition when a session starts. If it cannot run it says so in one line and the session starts anyway.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "CLAUDE_PLUGIN_OPTION_CONFIG_PATH=\"${CLAUDE_PLUGIN_OPTION_CONFIG_PATH:-$HOME/.config/gazeta/config.json}\" python3 \"${CLAUDE_PLUGIN_ROOT}/engine/gazeta.py\" --stdin || echo \"Gazeta did not run.\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
