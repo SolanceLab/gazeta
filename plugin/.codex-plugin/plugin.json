@@ -1,6 +1,6 @@
 {
   "name": "gazeta",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Gazeta: a short wake-up edition your coding session reads when it starts: what you touched last, what is waiting, and the output of any command you add. Runs on your own computer.",
   "author": { "name": "House of Solance", "url": "https://github.com/SolanceLab" },
   "license": "PolyForm-Noncommercial-1.0.0",

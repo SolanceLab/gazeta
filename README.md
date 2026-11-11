@@ -8,14 +8,23 @@ A short edition your coding session reads the moment it wakes: the five projects
 
 ## What you need
 
-Python 3.8 or newer and Claude Code. No install of packages, no account, no key. Gazeta runs on your own computer and makes no network call. The `projects` and `waiting` sections read your projects' git history and the output of a work-map tool; without one they show "source unavailable" (see Limits), and everything else still works.
+Python 3.8 or newer and Claude Code. No install of packages, no account, no key. Gazeta runs on your own computer and makes no network call. The `projects` and `waiting` sections read your projects' git history and the record kept by [work-map](https://github.com/SolanceLab/work-map), our companion plugin that writes and reads decision and pipeline lines in plain markdown; without it they show "source unavailable" (see Limits), and everything else still works.
 
 ## Install
 
 ```
 claude plugin marketplace add SolanceLab/plugins
 claude plugin install gazeta@solancelab
+claude plugin install work-map@solancelab
 ```
+
+Then point Gazeta at work-map in your config (`~/.config/gazeta/config.json`):
+
+```json
+{"work_map": {"script": "<the work-map plugin folder>/scripts/work_map.py", "config": "<your project folder>/work-map.json"}}
+```
+
+The work-map plugin folder is where Claude Code installed it; `find ~/.claude/plugins -name work_map.py` prints it. work-map's README explains `work-map.json`.
 
 Or by hand: copy the `plugin/` folder anywhere and run `python3 plugin/engine/gazeta.py` yourself; in Claude Code, `claude --plugin-dir plugin` loads it for one session.
 
@@ -32,7 +41,7 @@ The plugin prints the edition at the start of every Claude Code session. Codex h
 | `deadline` (config) | Seconds after which Gazeta stops waiting for any source and prints what it has (default 20; the hook allows 30) |
 | `cap` (config) | `{"lines": 45, "chars": 6000}`: the size the edition is trimmed to |
 | `workspace` (config) | The folder whose projects are ranked (default: where the session starts) |
-| `work_map` (config) | `{"script": ".../work_map.py", "config": ".../work-map.json"}`: the work-map tool that lists your projects |
+| `work_map` (config) | `{"script": ".../work_map.py", "config": ".../work-map.json"}`: [work-map](https://github.com/SolanceLab/work-map), which lists your projects |
 
 A config that adds two command sections:
 
@@ -54,7 +63,7 @@ A config that adds two command sections:
 | `gazeta.py --shadow [--out PATH]` | Writes the edition to a file instead (default `~/.config/gazeta/shadow-edition.md`) |
 | `gazeta.py --named TEXT --session ID --seen-dir DIR` | On a session's first prompt only, prints the slice for a project that prompt names |
 | `public.projects` | The five most recently touched projects, two lines each |
-| `public.waiting` | One line per other project with an item waiting or being built; option `statuses` names which work-map statuses count (default `waiting`, `building`) |
+| `public.waiting` | One line per other project with an item waiting or being built; option `statuses` names which work-map statuses count (default `waiting`, `building`; `waiting` also covers work-map's `waiting-on-<name>`) |
 | `public.command:<name>` | Any command's output as a section. Options: `command`, `id`, `priority`, `timeout`, `drop_prefixes`, `drop_blocks`, `min_prefixes`, `empty_ok`, `reserve`. The command is killed at its timeout. A non-zero exit is "source unavailable"; no output is too, unless `empty_ok` |
 | `plugin/skills/gazeta` | Tells the session how to read the edition and add a source |
 

@@ -80,6 +80,14 @@ class WaitingTests(unittest.TestCase):
         out = waiting.section(w.ctx())
         self.assertEqual(out["lines"], ["other: job (waiting)", "third: build (building)"])
 
+    def test_waiting_covers_work_map_waiting_on_name(self):
+        extra = [rec("pipeline", "pipeline:other/job", "other", "waiting-on-sam", source=("PIPELINE.md", 9)),
+                 rec("pipeline", "pipeline:fake/job", "fake", "waiting-onx", source=("PIPELINE.md", 9))]
+        w = World([1], extra)
+        self.addCleanup(w.close)
+        out = waiting.section(w.ctx())
+        self.assertEqual(out["lines"], ["other: job (waiting-on-sam)"])
+
     def test_long_list_collapses_to_pointer(self):
         extra = [rec("pipeline", "pipeline:x%d/j" % i, "x%d" % i, "waiting", source=("PIPELINE.md", 9)) for i in range(8)]
         w = World([1], extra)
